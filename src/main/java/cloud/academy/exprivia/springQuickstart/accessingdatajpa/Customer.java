@@ -2,12 +2,7 @@ package cloud.academy.exprivia.springQuickstart.accessingdatajpa;
 
 import jakarta.persistence.*;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.util.Date;
 
 /**
 * La classe Customer rappresenta un cliente con un identificatore univoco (id), un nome (firstName) e un cognome (lastName).
@@ -52,7 +47,7 @@ public class Customer {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
-        this.insertedDate = DateUtility.getDateFormString(stringDate);
+        this.insertedDate = DateUtility.getLocalDateFormString(stringDate);
     }
 
     /**
@@ -64,7 +59,7 @@ public class Customer {
     public String toString() {
         return String.format(
                 "Customer[id=%d, firstName='%s', lastName='%s', age='%d', insertedDate='%s']",
-                id, firstName, lastName, age,DateUtility.getStringFromDate(insertedDate));
+                id, firstName, lastName, age,DateUtility.getStringFromLocalDate(insertedDate));
     }
 
     /**

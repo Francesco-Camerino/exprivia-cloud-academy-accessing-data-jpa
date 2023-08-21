@@ -7,7 +7,7 @@ import java.time.format.DateTimeParseException;
 public class DateUtility {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    public static LocalDate getDateFormString(String stringDate) {
+    public static LocalDate getLocalDateFormString(String stringDate) {
         try {
             return LocalDate.parse(stringDate,formatter);
         } catch (DateTimeParseException e) {
@@ -16,7 +16,7 @@ public class DateUtility {
         return LocalDate.now();
     }
 
-    public static String getStringFromDate(LocalDate localDate) {
+    public static String getStringFromLocalDate(LocalDate localDate) {
         return localDate.format(formatter);
     }
 }

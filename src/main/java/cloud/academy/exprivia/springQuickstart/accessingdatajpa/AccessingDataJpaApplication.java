@@ -5,14 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cglib.core.Local;
 import org.springframework.context.annotation.Bean;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
-import java.util.Date;
 
 /**
  * La classe AccessingDataJpaApplication è la classe principale dell'applicazione Spring Boot.
@@ -120,7 +115,7 @@ public class AccessingDataJpaApplication {
 			// Recupera i clienti dal database con una data specifica e li stampa
 			log.info("Clienti trovati con findByInsertedDate(01/01/2001):");
 			log.info("--------------------------------------------");
-			repository.findByInsertedDate(DateUtility.getDateFormString("01/01/2001")).forEach(person -> {
+			repository.findByInsertedDate(DateUtility.getLocalDateFormString("01/01/2001")).forEach(person -> {
 				log.info(person.toString());
 			});
 			log.info("");
@@ -128,7 +123,7 @@ public class AccessingDataJpaApplication {
 			// Recupera i clienti dal database con una data maggiore di un valore specifico e li stampa
 			log.info("Clienti trovati con findByInsertedDateGreaterThan(01/01/2001):");
 			log.info("--------------------------------------------");
-			repository.findByInsertedDateGreaterThan(DateUtility.getDateFormString("01/01/2001")).forEach(person -> {
+			repository.findByInsertedDateGreaterThan(DateUtility.getLocalDateFormString("01/01/2001")).forEach(person -> {
 				log.info(person.toString());
 			});
 			log.info("");
