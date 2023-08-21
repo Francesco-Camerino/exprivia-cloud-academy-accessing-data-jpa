@@ -1,8 +1,12 @@
 package cloud.academy.exprivia.springQuickstart.accessingdatajpa;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
+
+import javax.xml.crypto.Data;
 
 /*
  *Utilizzando questa interfaccia CustomerRepository,
@@ -34,4 +38,12 @@ public interface CustomerRepository extends CrudRepository<Customer, Long> {
      * @return L'oggetto Customer con l'ID corrispondente, o null se non trovato.
      */
     Customer findById(long id);
+
+    List<Customer> findByFirstNameAndLastName(String firstName, String lastName);
+    List<Customer> findByLastNameContaining(String lastName);
+
+    List<Customer> findByAgeLessThan(Integer age);
+    List<Customer> findByAgeGreaterThan(Integer age);
+    List<Customer> findByInsertedDate(LocalDate insertedDate);
+    List<Customer> findByInsertedDateGreaterThan(LocalDate insertedDate);
 }

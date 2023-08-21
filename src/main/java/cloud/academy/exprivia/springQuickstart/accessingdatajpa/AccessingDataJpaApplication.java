@@ -5,7 +5,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cglib.core.Local;
 import org.springframework.context.annotation.Bean;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+import java.util.Date;
 
 /**
  * La classe AccessingDataJpaApplication è la classe principale dell'applicazione Spring Boot.
@@ -25,6 +32,7 @@ public class AccessingDataJpaApplication {
 	 * Logger per la classe AccessingDataJpaApplication. Viene utilizzato per scrivere i log per l'applicazione.
 	 */
 	private static final Logger log = LoggerFactory.getLogger(AccessingDataJpaApplication.class);
+	private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
 	/**
 	 * Metodo main dell'applicazione. Viene eseguito all'avvio dell'applicazione e avvia il contesto di Spring Boot.
@@ -48,11 +56,11 @@ public class AccessingDataJpaApplication {
 	public CommandLineRunner demo(CustomerRepository repository) {
 		return (args) -> {
 			// Salva alcuni clienti nel database
-			repository.save(new Customer("Jack", "Bauer"));
-			repository.save(new Customer("Chloe", "O'Brian"));
-			repository.save(new Customer("Kim", "Bauer"));
-			repository.save(new Customer("David", "Palmer"));
-			repository.save(new Customer("Michelle", "Dessler"));
+			repository.save(new Customer("Jack", "Bauer",25,"01/01/2001"));
+			repository.save(new Customer("Chloe", "O'Brian",31,"02/02/2002"));
+			repository.save(new Customer("Kim", "Bauer",21,"03/03/2003"));
+			repository.save(new Customer("David", "Palmer",45,"04/04/2004"));
+			repository.save(new Customer("Michelle", "Dessler",18,"05/05/2005"));
 
 			// Recupera tutti i clienti dal database e li stampa
 			log.info("Clienti trovati con findAll():");
@@ -74,6 +82,54 @@ public class AccessingDataJpaApplication {
 			log.info("--------------------------------------------");
 			repository.findByLastName("Bauer").forEach(bauer -> {
 				log.info(bauer.toString());
+			});
+			log.info("");
+
+			// Recupera i clienti dal database in base al nome e al cognome e li stampa
+			log.info("Clienti trovati con findByFirstNameAndLastName('Jack', 'Bauer'):");
+			log.info("--------------------------------------------");
+			repository.findByFirstNameAndLastName("Jack", "Bauer").forEach(person -> {
+				log.info(person.toString());
+			});
+			log.info("");
+
+			// Recupera i clienti dal database in base al cognome contenente un valore specifico e li stampa
+			log.info("Clienti trovati con findByLastNameContaining('Bauer'):");
+			log.info("--------------------------------------------");
+			repository.findByLastNameContaining("Bauer").forEach(person -> {
+				log.info(person.toString());
+			});
+			log.info("");
+
+			// Recupera i clienti dal database con un'età maggiore di un valore specifico e li stampa
+			log.info("Clienti trovati con findByAgeGreaterThan(30):");
+			log.info("--------------------------------------------");
+			repository.findByAgeGreaterThan(30).forEach(person -> {
+				log.info(person.toString());
+			});
+			log.info("");
+
+			// Recupera i clienti dal database con l'età inferirore al valore specificato e li stampa
+			log.info("Clienti trovati con findByAgeLessThan(30):");
+			log.info("--------------------------------------------");
+			repository.findByAgeLessThan(30).forEach(person -> {
+				log.info(person.toString());
+			});
+			log.info("");
+
+			// Recupera i clienti dal database con una data specifica e li stampa
+			log.info("Clienti trovati con findByInsertedDate(01/01/2001):");
+			log.info("--------------------------------------------");
+			repository.findByInsertedDate(DateUtility.getDateFormString("01/01/2001")).forEach(person -> {
+				log.info(person.toString());
+			});
+			log.info("");
+
+			// Recupera i clienti dal database con una data maggiore di un valore specifico e li stampa
+			log.info("Clienti trovati con findByInsertedDateGreaterThan(01/01/2001):");
+			log.info("--------------------------------------------");
+			repository.findByInsertedDateGreaterThan(DateUtility.getDateFormString("01/01/2001")).forEach(person -> {
+				log.info(person.toString());
 			});
 			log.info("");
 		};

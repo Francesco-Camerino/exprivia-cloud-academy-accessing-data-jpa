@@ -1,9 +1,13 @@
 package cloud.academy.exprivia.springQuickstart.accessingdatajpa;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Date;
 
 /**
 * La classe Customer rappresenta un cliente con un identificatore univoco (id), un nome (firstName) e un cognome (lastName).
@@ -29,6 +33,10 @@ public class Customer {
      */
     private String lastName;
 
+    private Integer age;
+
+    private LocalDate insertedDate;
+
     /**
      * Costruttore protetto per JPA. Viene utilizzato solo internamente e non deve essere utilizzato direttamente.
      */
@@ -40,9 +48,11 @@ public class Customer {
      * @param firstName Nome del cliente.
      * @param lastName  Cognome del cliente.
      */
-    public Customer(String firstName, String lastName) {
+    public Customer(String firstName, String lastName, Integer age, String stringDate) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.age = age;
+        this.insertedDate = DateUtility.getDateFormString(stringDate);
     }
 
     /**
@@ -53,8 +63,8 @@ public class Customer {
     @Override
     public String toString() {
         return String.format(
-                "Customer[id=%d, firstName='%s', lastName='%s']",
-                id, firstName, lastName);
+                "Customer[id=%d, firstName='%s', lastName='%s', age='%d', insertedDate='%s']",
+                id, firstName, lastName, age,DateUtility.getStringFromDate(insertedDate));
     }
 
     /**
@@ -82,5 +92,11 @@ public class Customer {
      */
     public String getLastName() {
         return lastName;
+    }
+
+    private Integer getAge() {return age; }
+
+    public LocalDate getInsertedDate() {
+        return insertedDate;
     }
 }
